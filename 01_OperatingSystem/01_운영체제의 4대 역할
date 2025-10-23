@@ -1,0 +1,143 @@
+📚 목차 (Table of Contents)
+
+자원 관리(Resource Management)
+
+프로세스 관리(Process Management)
+
+메모리 관리(Memory-Management)
+
+파일 시스템 관리(File-System-Management)
+
+1️⃣ 자원 관리(Resource Management)
+
+시스템에 한정되어 있는 자원(CPU, 메모리, 네트워크, I/O 등)을
+효율적·안정적·공정하게 관리하는 역할입니다.
+
+📌 핵심 개념
+
+정책 & 메커니즘 (Policy & Mechanism)
+
+어떤 자원에 어떤 작업을 할당할지,
+“무엇을” 줄지 결정하는 과정과 “어떻게” 줄지 구현을 구분.
+
+격리 & 보호 (Isolation & Protection)
+
+한 프로세스의 오류나 공격이
+다른 프로세스로 확산되지 않도록 시스템 자원을 보호.
+
+공평성 & 효율성 (Fairness & Efficiency)
+
+응답시간, 처리시간, 대기시간을 균형 있게 유지하여
+CPU·메모리 등의 활용률을 최대화.
+
+2️⃣ 프로세스 관리(Process Management)
+
+프로세스의 생성·실행·대기·종료를 관리하고,
+여러 프로세스가 동시에 실행될 때 발생하는 동시성 문제(concurrency) 를 해결합니다.
+
+📌 핵심 개념
+
+프로세스 & 스레드
+
+프로세스: 독립적인 주소 공간을 가짐
+
+스레드: 프로세스 내에서 코드·데이터·힙 공유, 스택만 분리
+
+PCB vs TCB
+
+PCB(Process Control Block): 프로세스 상태, 레지스터 정보, 메모리 포인터 등 관리
+
+TCB(Thread Control Block): 스레드 관련 스케줄링 및 실행 정보 관리
+
+상태 전이 (State Transition)
+
+생성 → 준비 → 실행 → 대기 → 종료
+
+이때 발생하는 문맥 교환(Context Switching)은 CPU 스케줄러가 담당
+
+⚙️ 스케줄링 (Scheduling)
+
+단일 코어: FCFS, SJF, RR, Priority 등
+
+다중 코어: 부하 분산, 캐시 친화성, CPU affinity 고려
+
+실시간 스케줄링: 마감 시간(Deadline)을 보장해야 하는 작업 처리 (RM, EDF 등)
+
+🔄 동기화 / 통신
+
+상호배제(Mutual Exclusion): Mutex, Spinlock
+
+조건 동기(Condition Synchronization): Semaphore, Monitor
+
+프로세스 간 통신 (IPC): 파이프, 메시지 큐, 소켓, 공유메모리 등
+
+⚠️ 교착상태 (Deadlock)
+
+여러 프로세스가 서로 자원을 점유한 채
+영원히 기다리는 상태를 말합니다.
+
+발생 조건: 상호배제, 점유와 대기, 비선점, 환형대기
+
+해결 방식: 예방, 회피(은행가 알고리즘), 탐지 및 복구
+
+3️⃣ 메모리 관리(Memory Management)
+
+한정된 물리 메모리를 안전하게 분할하고,
+가상 메모리(Virtual Memory) 개념을 통해 확장하여
+효율성, 보호, 성능을 달성하는 역할입니다.
+
+📌 핵심 개념
+
+배치·할당 (Allocation)
+
+연속 할당: FIRST-FIT, BEST-FIT, WORST-FIT
+
+불연속 할당: 페이징(Paging), 세그멘테이션(Segmentation)
+
+현대 OS는 주로 페이징 기반 (Huge Page, THP 등)
+
+가상 메모리(Virtual Memory)
+
+프로세스는 실제 물리 메모리를 의식하지 않고
+연속적인 주소 공간을 사용하는 것처럼 보임.
+
+페이지 교체 정책(Page Replacement)
+
+FIFO, LRU, Clock, LFU, Optimal 등
+
+페이지 폴트(Page Fault) 발생 시 교체 대상 페이지 선택
+
+Demand Paging & Swapping
+
+필요한 페이지만 메모리에 적재하고,
+부족 시 디스크와 교체(Swap)
+
+4️⃣ 파일 시스템 관리(File System Management)
+
+비휘발성 저장장치(HDD, SSD 등)에 데이터를
+파일 단위로 구조적·안정적으로 관리하는 역할입니다.
+
+📁 논리 구조
+구성	설명
+파일(File)	데이터를 저장하는 기본 논리 단위
+디렉터리(Directory)	파일을 계층적으로 구성하는 네임스페이스
+메타데이터(Metadata)	파일의 크기, 소유자, 권한, 수정시간 등 부가정보
+🧩 물리 / 인덱싱 구조
+개념	설명
+i-node (POSIX)	파일의 메타데이터 + 데이터 블록 포인터(직접/간접/이중/삼중)
+할당 방식	연속/연결/인덱스 방식
+저널링(Journaling)	ext4, XFS 등에서 파일시스템 일관성 유지
+COW(Copy-On-Write)	ZFS, btrfs, APFS 등에서 데이터 안정성 향상
+⚙️ 성능 · 일관성
+
+페이지 캐시 / 버퍼 캐시
+: 디스크 접근 최소화로 속도 향상
+
+Write-back vs Write-through
+: 쓰기 정책 결정
+
+동기화 (fsync, barrier)
+: 데이터의 원자성 보장
+
+디렉터리 인덱싱
+: 해시/트리 기반 탐색 성능 향상
